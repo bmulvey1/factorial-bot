@@ -6,7 +6,9 @@ import re
 import conf
 from decimal import Decimal
 
-client = discord.Client()
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents=intents)
 
 
 @client.event
@@ -51,13 +53,13 @@ async def on_message(message):
                     await message.channel.send("You can't take the factorial of a negative number!")
                     print("Sent by: " + str(message.author) + " with content: " + str(message.content))
 
-                elif number >= 10000:  # Handling #s that are way too big (give up)
+                elif number >= 1000000:  # Handling #s that are way too big (give up)
                     await message.channel.send("This factorial is too large to be computed in a reasonable amount of "
                                                "time!")
                     print("Sent by: " + str(message.author) + " with content: " + str(message.content))
 
-                elif number > 6000:  # Handling large #s (might take a while to compute)
-                    await message.channel.send("This might take a while.")
+                elif number > 35000:  # Handling large #s (might take a while to compute)
+                    await message.channel.send("This might take a while.", delete_after=10.0)
                     numberFac = math.factorial(number)
                     numberFac = "{:.5E}".format(Decimal(numberFac))
                     await message.channel.send(numberFac)
